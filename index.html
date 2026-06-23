@@ -5,29 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Cartão de Todos — Ceilândia</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-
   :root {
     --verde: #1a7a45;
     --verde-escuro: #0d4f2c;
-    --verde-claro: #e8f5ee;
     --amarelo: #f5c000;
-    --amarelo-soft: #fff8dc;
-    --branco: #ffffff;
-    --cinza-bg: #f0f2f0;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; font-family: 'Inter', Arial, sans-serif; background: var(--verde-escuro); overflow: hidden; }
 
-  html, body {
-    height: 100%;
-    font-family: 'Inter', Arial, sans-serif;
-    background: var(--verde-escuro);
-    overflow: hidden;
-  }
-
-  /* ── FUNDO COM PADRÃO SUTIL ── */
   body::before {
     content: '';
     position: fixed;
@@ -40,314 +28,112 @@
   }
 
   .wrapper {
-    position: relative;
-    z-index: 1;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    position: relative; z-index: 1; height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
     padding: 2rem 1.5rem;
-    gap: 0;
   }
 
-  /* ── HEADER ── */
-  .header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 2.5rem;
-  }
+  .header { display: flex; flex-direction: column; align-items: center; margin-bottom: 2.5rem; }
 
   .logo-wrap {
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 20px;
-    padding: 16px 28px;
-    margin-bottom: 1.25rem;
-    backdrop-filter: blur(8px);
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 20px; padding: 16px 28px; margin-bottom: 1.25rem; backdrop-filter: blur(8px);
   }
+  .logo-wrap img { height: 52px; display: block; filter: brightness(0) invert(1); }
 
-  .logo-wrap img {
-    height: 52px;
-    display: block;
-    filter: brightness(0) invert(1);
-  }
+  .header h1 { font-size: 2rem; font-weight: 800; color: #fff; letter-spacing: -0.5px; text-align: center; }
+  .header p  { font-size: 1rem; color: rgba(255,255,255,0.55); margin-top: 0.4rem; text-align: center; }
 
-  .header h1 {
-    font-size: 2rem;
-    font-weight: 800;
-    color: #fff;
-    letter-spacing: -0.5px;
-    text-align: center;
-    line-height: 1.15;
-  }
-
-  .header p {
-    font-size: 1rem;
-    color: rgba(255,255,255,0.55);
-    margin-top: 0.4rem;
-    text-align: center;
-    font-weight: 400;
-  }
-
-  /* ── GRID DE SETORES ── */
-  .setores {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    width: 100%;
-    max-width: 860px;
-  }
+  .setores { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; width: 100%; max-width: 860px; }
 
   .setor-card {
-    background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(255,255,255,0.13);
-    border-radius: 24px;
-    padding: 2rem 1.25rem 1.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0;
-    transition: transform 0.15s, background 0.15s;
-    backdrop-filter: blur(4px);
+    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.13);
+    border-radius: 24px; padding: 2rem 1.25rem 1.5rem;
+    display: flex; flex-direction: column; align-items: center;
+    transition: transform 0.15s, background 0.15s; backdrop-filter: blur(4px);
   }
-
-  .setor-card:hover {
-    background: rgba(255,255,255,0.13);
-    transform: translateY(-2px);
-  }
+  .setor-card:hover { background: rgba(255,255,255,0.13); transform: translateY(-2px); }
 
   .setor-icone {
-    width: 64px;
-    height: 64px;
-    border-radius: 18px;
+    width: 64px; height: 64px; border-radius: 18px;
     background: rgba(255,255,255,0.12);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    margin-bottom: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem; margin-bottom: 1rem;
   }
+  .setor-nome { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 1.25rem; text-align: center; }
 
-  .setor-nome {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 1.25rem;
-    text-align: center;
-  }
-
-  .tipo-grupo {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
-  }
+  .tipo-grupo { display: flex; flex-direction: column; gap: 8px; width: 100%; }
 
   .btn-tipo {
-    width: 100%;
-    padding: 13px 10px;
-    border-radius: 14px;
-    border: none;
-    cursor: pointer;
-    font-size: 0.88rem;
-    font-weight: 600;
-    font-family: inherit;
-    transition: all 0.15s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
+    width: 100%; padding: 13px 10px; border-radius: 14px; border: none;
+    cursor: pointer; font-size: 0.88rem; font-weight: 600; font-family: inherit;
+    transition: all 0.15s; display: flex; align-items: center; justify-content: center; gap: 7px;
   }
-
-  .btn-normal {
-    background: rgba(255,255,255,0.14);
-    color: #fff;
-    border: 1px solid rgba(255,255,255,0.22);
-  }
-  .btn-normal:hover {
-    background: rgba(255,255,255,0.26);
-    transform: scale(1.02);
-  }
+  .btn-normal { background: rgba(255,255,255,0.14); color: #fff; border: 1px solid rgba(255,255,255,0.22); }
+  .btn-normal:hover { background: rgba(255,255,255,0.26); transform: scale(1.02); }
   .btn-normal:active { transform: scale(0.97); }
-
-  .btn-pref {
-    background: var(--amarelo);
-    color: #6b4a00;
-    border: none;
-  }
-  .btn-pref:hover {
-    background: #ffd023;
-    transform: scale(1.02);
-  }
+  .btn-pref { background: var(--amarelo); color: #6b4a00; }
+  .btn-pref:hover { background: #ffd023; transform: scale(1.02); }
   .btn-pref:active { transform: scale(0.97); }
 
-  /* ── RODAPÉ ── */
-  .footer {
-    margin-top: 2rem;
-    font-size: 0.75rem;
-    color: rgba(255,255,255,0.25);
-    text-align: center;
-    letter-spacing: 0.5px;
-  }
+  .footer { margin-top: 2rem; font-size: 0.75rem; color: rgba(255,255,255,0.25); text-align: center; }
 
-  /* ── MODAL TICKET ── */
+  /* MODAL TICKET */
   .modal-bg {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.65);
-    z-index: 9999;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(4px);
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.65); z-index: 9999;
+    align-items: center; justify-content: center; backdrop-filter: blur(4px);
   }
   .modal-bg.open { display: flex; }
 
   .ticket {
-    background: #fff;
-    border-radius: 24px;
-    width: 300px;
-    padding: 0;
-    overflow: hidden;
+    background: #fff; border-radius: 24px; width: 300px; overflow: hidden;
     box-shadow: 0 24px 64px rgba(0,0,0,0.35);
     animation: popIn 0.2s cubic-bezier(0.34,1.56,0.64,1);
   }
+  @keyframes popIn { from{transform:scale(0.85);opacity:0;} to{transform:scale(1);opacity:1;} }
 
-  @keyframes popIn {
-    from { transform: scale(0.85); opacity: 0; }
-    to   { transform: scale(1);    opacity: 1; }
-  }
+  .ticket-header { background: var(--verde-escuro); padding: 1.25rem 1.5rem 1rem; text-align: center; }
+  .ticket-header img { height: 28px; filter: brightness(0) invert(1); margin-bottom: 0.35rem; }
+  .ticket-header .unidade { font-size: 10px; color: rgba(255,255,255,0.5); letter-spacing: 1.5px; text-transform: uppercase; }
 
-  .ticket-header {
-    background: var(--verde-escuro);
-    padding: 1.25rem 1.5rem 1rem;
-    text-align: center;
-  }
-
-  .ticket-header img {
-    height: 28px;
-    filter: brightness(0) invert(1);
-    margin-bottom: 0.35rem;
-  }
-
-  .ticket-header .unidade {
-    font-size: 10px;
-    color: rgba(255,255,255,0.5);
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-  }
-
-  .ticket-body {
-    padding: 1.5rem;
-    text-align: center;
-  }
-
-  .tk-setor-nome {
-    font-size: 13px;
-    font-weight: 600;
-    color: #666;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 6px;
-  }
+  .ticket-body { padding: 1.5rem; text-align: center; }
+  .tk-setor-nome { font-size: 13px; font-weight: 600; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
 
   .tk-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 4px 14px;
-    border-radius: 20px;
-    margin-bottom: 1.25rem;
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 700; padding: 4px 14px; border-radius: 20px; margin-bottom: 1.25rem;
   }
   .tk-badge.normal { background: #e8f5ee; color: #1a7a45; }
   .tk-badge.pref   { background: #fff8dc; color: #a07000; }
 
-  .tk-numero {
-    font-size: 68px;
-    font-weight: 900;
-    color: var(--verde-escuro);
-    letter-spacing: 4px;
-    line-height: 1;
-    margin-bottom: 1.25rem;
-  }
+  .tk-numero { font-size: 68px; font-weight: 900; color: var(--verde-escuro); letter-spacing: 4px; line-height: 1; margin-bottom: 1.25rem; }
+  .tk-divisor { border: none; border-top: 1.5px dashed #e0e0e0; margin: 0 0 1rem; }
+  .tk-info { font-size: 12px; color: #888; line-height: 2; margin-bottom: 0.75rem; }
+  .tk-aviso { font-size: 11px; color: #bbb; margin-bottom: 1.25rem; }
 
-  .tk-divisor {
-    border: none;
-    border-top: 1.5px dashed #e0e0e0;
-    margin: 0 0 1rem;
-  }
-
-  .tk-info {
-    font-size: 12px;
-    color: #888;
-    line-height: 2;
-    margin-bottom: 0.75rem;
-  }
-
-  .tk-aviso {
-    font-size: 11px;
-    color: #bbb;
-    margin-bottom: 1.25rem;
-  }
-
-  .tk-acoes {
-    display: flex;
-    gap: 8px;
-  }
-
+  .tk-acoes { display: flex; gap: 8px; }
   .btn-imprimir {
-    flex: 1;
-    padding: 12px;
-    border-radius: 12px;
-    border: none;
-    background: var(--verde);
-    color: #fff;
-    font-size: 13px;
-    font-weight: 700;
-    font-family: inherit;
-    cursor: pointer;
+    flex: 1; padding: 12px; border-radius: 12px; border: none;
+    background: var(--verde); color: #fff; font-size: 13px; font-weight: 700; font-family: inherit; cursor: pointer;
   }
   .btn-imprimir:hover { background: var(--verde-escuro); }
-
   .btn-fechar {
-    flex: 1;
-    padding: 12px;
-    border-radius: 12px;
-    border: 1.5px solid #ddd;
-    background: #fff;
-    color: #666;
-    font-size: 13px;
-    font-weight: 600;
-    font-family: inherit;
-    cursor: pointer;
+    flex: 1; padding: 12px; border-radius: 12px;
+    border: 1.5px solid #ddd; background: #fff; color: #666;
+    font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer;
   }
   .btn-fechar:hover { background: #f5f5f5; }
 
-  /* ── TOAST ── */
+  /* TOAST */
   .toast {
-    position: fixed;
-    bottom: 28px;
-    left: 50%;
+    position: fixed; bottom: 28px; left: 50%;
     transform: translateX(-50%) translateY(20px);
-    background: #222;
-    color: #fff;
-    padding: 12px 24px;
-    border-radius: 50px;
-    font-size: 13px;
-    font-weight: 500;
-    opacity: 0;
-    transition: all 0.25s;
-    z-index: 99999;
-    white-space: nowrap;
+    background: #222; color: #fff; padding: 12px 24px;
+    border-radius: 50px; font-size: 13px; font-weight: 500;
+    opacity: 0; transition: all 0.25s; z-index: 99999; white-space: nowrap;
   }
-  .toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
@@ -366,38 +152,24 @@
       <div class="setor-icone">👥</div>
       <div class="setor-nome">Recepção</div>
       <div class="tipo-grupo">
-        <button class="btn-tipo btn-normal" onclick="emitir('R','Normal','Recepção')">
-          <span>👤</span> Atendimento Normal
-        </button>
-        <button class="btn-tipo btn-pref" onclick="emitir('R','Preferencial','Recepção')">
-          <span>⭐</span> Preferencial
-        </button>
+        <button class="btn-tipo btn-normal" onclick="emitir('R','Normal','Recepção')"><span>👤</span> Atendimento Normal</button>
+        <button class="btn-tipo btn-pref"   onclick="emitir('R','Preferencial','Recepção')"><span>⭐</span> Preferencial</button>
       </div>
     </div>
-
     <div class="setor-card">
       <div class="setor-icone">💳</div>
       <div class="setor-nome">Financeiro</div>
       <div class="tipo-grupo">
-        <button class="btn-tipo btn-normal" onclick="emitir('F','Normal','Financeiro')">
-          <span>👤</span> Atendimento Normal
-        </button>
-        <button class="btn-tipo btn-pref" onclick="emitir('F','Preferencial','Financeiro')">
-          <span>⭐</span> Preferencial
-        </button>
+        <button class="btn-tipo btn-normal" onclick="emitir('F','Normal','Financeiro')"><span>👤</span> Atendimento Normal</button>
+        <button class="btn-tipo btn-pref"   onclick="emitir('F','Preferencial','Financeiro')"><span>⭐</span> Preferencial</button>
       </div>
     </div>
-
     <div class="setor-card">
       <div class="setor-icone">🔄</div>
       <div class="setor-nome">Cancelamento</div>
       <div class="tipo-grupo">
-        <button class="btn-tipo btn-normal" onclick="emitir('C','Normal','Cancelamento')">
-          <span>👤</span> Atendimento Normal
-        </button>
-        <button class="btn-tipo btn-pref" onclick="emitir('C','Preferencial','Cancelamento')">
-          <span>⭐</span> Preferencial
-        </button>
+        <button class="btn-tipo btn-normal" onclick="emitir('C','Normal','Cancelamento')"><span>👤</span> Atendimento Normal</button>
+        <button class="btn-tipo btn-pref"   onclick="emitir('C','Preferencial','Cancelamento')"><span>⭐</span> Preferencial</button>
       </div>
     </div>
   </div>
@@ -425,7 +197,7 @@
       <div class="tk-aviso">Aguarde ser chamado. Não perca sua vez.</div>
       <div class="tk-acoes">
         <button class="btn-imprimir" onclick="imprimirSenha()">🖨 Imprimir</button>
-        <button class="btn-fechar" onclick="fecharModal()">Fechar</button>
+        <button class="btn-fechar"   onclick="fecharModal()">Fechar</button>
       </div>
     </div>
   </div>
@@ -440,7 +212,7 @@ const { createClient } = supabase;
 const db = createClient(SUPA_URL, SUPA_KEY);
 
 var contadores = {R:{N:0,P:0},F:{N:0,P:0},C:{N:0,P:0}};
-var filaLocal = [];
+var filaLocal  = [];
 var pendingTicket = null;
 
 async function inicializar() {
@@ -459,34 +231,30 @@ async function inicializar() {
 async function emitir(setor, tipo, nomeSetor) {
   var chave = tipo === 'Preferencial' ? 'P' : 'N';
   contadores[setor][chave]++;
-  var num = String(contadores[setor][chave]).padStart(3,'0');
+  var num   = String(contadores[setor][chave]).padStart(3,'0');
   var senha = setor + (chave==='P'?'P':'N') + num;
   var agora = new Date();
-  var hora = agora.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-  var data = agora.toLocaleDateString('pt-BR');
+  var hora  = agora.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  var data  = agora.toLocaleDateString('pt-BR');
 
   var { data: inserted, error } = await db.from('senhas').insert({
-    senha: senha, setor: setor, nome_setor: nomeSetor,
-    tipo: tipo, status: 'aguardando', hora: hora, data: data
+    senha:senha, setor:setor, nome_setor:nomeSetor,
+    tipo:tipo, status:'aguardando', hora:hora, data:data
   }).select().single();
 
-  if (error) {
-    contadores[setor][chave]--;
-    toast('Erro ao emitir senha. Verifique a conexão.');
-    return;
-  }
+  if (error) { contadores[setor][chave]--; toast('Erro ao emitir senha. Verifique a conexão.'); return; }
 
-  pendingTicket = inserted || {senha,setor,nome_setor:nomeSetor,tipo,hora,data};
+  pendingTicket = inserted;
   var pos = filaLocal.filter(function(f){ return f.status==='aguardando'; }).length + 1;
 
-  document.getElementById('tk-setor').textContent = nomeSetor;
+  document.getElementById('tk-setor').textContent  = nomeSetor;
   document.getElementById('tk-numero').textContent = senha;
   var badge = document.getElementById('tk-badge');
   badge.textContent = tipo === 'Preferencial' ? '⭐ Preferencial' : '✅ Normal';
-  badge.className = 'tk-badge ' + (tipo==='Preferencial'?'pref':'normal');
+  badge.className   = 'tk-badge ' + (tipo==='Preferencial'?'pref':'normal');
   document.getElementById('tk-data').textContent = 'Data: ' + data;
   document.getElementById('tk-hora').textContent = 'Hora: ' + hora;
-  document.getElementById('tk-pos').textContent = pos <= 1 ? 'Você é o próximo!' : (pos-1) + ' pessoa(s) na sua frente';
+  document.getElementById('tk-pos').textContent  = pos <= 1 ? 'Você é o próximo!' : (pos-1) + ' pessoa(s) na sua frente';
   document.getElementById('modal-ticket').classList.add('open');
 }
 
@@ -494,47 +262,60 @@ function fecharModal() {
   document.getElementById('modal-ticket').classList.remove('open');
 }
 
+// ── IMPRESSÃO TÉRMICA (58mm) ──
 function imprimirSenha() {
   var t = pendingTicket;
   if (!t) return;
-  var logo = document.querySelector('.ticket-header img').src;
-  var w = window.open('','_blank','width=380,height=560');
-  w.document.write('<!DOCTYPE html><html><head><meta charset="utf-8"><title>Senha '+t.senha+'</title>');
-  w.document.write('<style>*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}');
-  w.document.write('body{display:flex;align-items:center;justify-content:center;min-height:100vh;background:#f5f5f5;}');
-  w.document.write('.box{background:#fff;border-radius:16px;width:260px;overflow:hidden;border:1px solid #ddd;}');
-  w.document.write('.th{background:#0d4f2c;padding:1rem 1.25rem;text-align:center;}');
-  w.document.write('.th img{height:26px;filter:brightness(0) invert(1);margin-bottom:3px;}');
-  w.document.write('.th .u{font-size:9px;color:rgba(255,255,255,.45);letter-spacing:1px;text-transform:uppercase;}');
-  w.document.write('.tb{padding:1.25rem;text-align:center;}');
-  w.document.write('.sn{font-size:12px;font-weight:700;color:#666;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}');
-  w.document.write('.bg{display:inline-block;font-size:10px;font-weight:700;padding:3px 12px;border-radius:20px;margin-bottom:1rem;}');
-  w.document.write('.bn{background:#e8f5ee;color:#1a7a45;}.bp{background:#fff8dc;color:#a07000;}');
-  w.document.write('.num{font-size:60px;font-weight:900;color:#0d4f2c;letter-spacing:4px;line-height:1;margin-bottom:1rem;}');
-  w.document.write('hr{border:none;border-top:1.5px dashed #eee;margin:0 0 .75rem;}');
-  w.document.write('.info{font-size:11px;color:#888;line-height:2;margin-bottom:.5rem;}');
-  w.document.write('.av{font-size:10px;color:#ccc;}');
-  w.document.write('</style></head><body><div class="box">');
-  w.document.write('<div class="th"><img src="'+logo+'" alt="Logo"><div class="u">Cartão de Todos · Ceilândia</div></div>');
-  w.document.write('<div class="tb">');
-  w.document.write('<div class="sn">'+t.nome_setor+'</div>');
-  var bc = t.tipo==='Preferencial'?'bp':'bn';
-  var bt = t.tipo==='Preferencial'?'⭐ Preferencial':'✅ Normal';
-  w.document.write('<div><span class="bg '+bc+'">'+bt+'</span></div>');
-  w.document.write('<div class="num">'+t.senha+'</div>');
-  w.document.write('<hr>');
-  w.document.write('<div class="info"><div>Data: '+t.data+'</div><div>Hora: '+t.hora+'</div></div>');
-  w.document.write('<div class="av">Aguarde ser chamado. Não perca sua vez.</div>');
-  w.document.write('</div></div></body></html>');
+
+  var logo   = document.querySelector('.ticket-header img').src;
+  var setor  = document.getElementById('tk-setor').textContent;
+  var badge  = document.getElementById('tk-badge').textContent;
+  var numero = document.getElementById('tk-numero').textContent;
+  var dataT  = document.getElementById('tk-data').textContent;
+  var horaT  = document.getElementById('tk-hora').textContent;
+  var posT   = document.getElementById('tk-pos').textContent;
+
+  var w = window.open('','_blank','width=320,height=480');
+  w.document.write([
+    '<!DOCTYPE html><html><head><meta charset="utf-8">',
+    '<title>Senha ' + numero + '</title>',
+    '<style>',
+    '  @page { size: 58mm auto; margin: 0; }',
+    '  * { box-sizing: border-box; margin: 0; padding: 0; }',
+    '  body {',
+    '    width: 52mm; margin: 0 auto; padding: 3mm 2mm;',
+    '    font-family: "Courier New", Courier, monospace;',
+    '    font-weight: bold; color: #000; text-align: center;',
+    '    background: #fff;',
+    '  }',
+    '  .logo { height: 22px; margin-bottom: 3px; filter: brightness(0); }',
+    '  .empresa { font-size: 8px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2px; }',
+    '  .divisor { border: none; border-top: 1px dashed #000; margin: 5px 0; }',
+    '  .setor { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }',
+    '  .badge { display: inline-block; border: 1px solid #000; font-size: 10px; padding: 1px 6px; margin-bottom: 5px; }',
+    '  .numero { font-size: 34px; font-weight: 900; letter-spacing: 2px; line-height: 1.1; margin: 4px 0; }',
+    '  .info { font-size: 9px; line-height: 1.6; margin-bottom: 3px; }',
+    '  .aviso { font-size: 8px; }',
+    '</style></head><body>',
+    '<img class="logo" src="' + logo + '" alt="Logo">',
+    '<div class="empresa">Cartão de Todos · Ceilândia</div>',
+    '<div class="divisor"></div>',
+    '<div class="setor">' + setor + '</div>',
+    '<div class="badge">' + badge + '</div>',
+    '<div class="numero">' + numero + '</div>',
+    '<div class="divisor"></div>',
+    '<div class="info">' + dataT + '<br>' + horaT + '<br>' + posT + '</div>',
+    '<div class="aviso">Aguarde ser chamado. Não perca sua vez.</div>',
+    '<script>window.onload=function(){window.print();setTimeout(function(){window.close();},800);}<\/script>',
+    '</body></html>'
+  ].join('\n'));
   w.document.close();
   w.focus();
-  setTimeout(function(){ w.print(); }, 400);
 }
 
 function toast(msg) {
   var el = document.getElementById('toast');
-  el.textContent = msg;
-  el.classList.add('show');
+  el.textContent = msg; el.classList.add('show');
   setTimeout(function(){ el.classList.remove('show'); }, 3000);
 }
 
